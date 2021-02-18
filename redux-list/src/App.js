@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  addTask,
+  removeTask
+} from './actions'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+  const list = useSelector(state => state.list);
+  const dispatch = useDispatch();
+
+  const [query, setQuery] = useState("");
+  
+  const onHandleQuery = (event) => {
+    setQuery(event.target.value);
+  }
+
+  return(
+    <div className="container">
+      <div className="form-input-task">
+        <p>Put your task:</p>
+        <input type="text" value={query} onChange={onHandleQuery}/>
+        <button onClick={()=> dispatch(addTask(query))}>Submit</button>
+        <button onClick={()=> dispatch(removeTask("hello"))}>remove</button>
+      </div>
+      <div>
+        {list}
+      </div>      
+      
     </div>
-  );
+  )
 }
 
 export default App;
